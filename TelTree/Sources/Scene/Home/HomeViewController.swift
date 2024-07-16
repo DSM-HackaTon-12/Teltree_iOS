@@ -17,6 +17,11 @@ class HomeViewController: BaseViewController {
         self.navigationItem.title = "TelTree"
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+
     override func addView() {
         self.view.addSubview(tableView)
     }
