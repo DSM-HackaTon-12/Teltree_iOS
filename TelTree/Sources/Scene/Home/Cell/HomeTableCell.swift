@@ -11,7 +11,7 @@ class HomeTableViewCell: UITableViewCell {
     }
     let titleLabel = UILabel().then {
         $0.text = "해커톤 하는데 mc봐주실분"
-        $0.font = .systemFont(ofSize: 14, weight: .medium)
+        $0.font = .systemFont(ofSize: 16, weight: .medium)
         $0.numberOfLines = 2
     }
     let addressLabel = UILabel().then {
