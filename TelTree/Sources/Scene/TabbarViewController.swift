@@ -37,6 +37,11 @@ class TabbarViewController: UITabBarController {
         let writeViewController = BaseNavigationController(
             rootViewController: WriteViewController()
         )
+        writeViewController.tabBarItem = UITabBarItem(
+            title: "ADD",
+            image: TelTreeAsset.add.image,
+            selectedImage: TelTreeAsset.add.image
+        )
         let reviewViewController = BaseNavigationController(
             rootViewController: ReviewViewController()
         )
@@ -60,22 +65,14 @@ class TabbarViewController: UITabBarController {
             reviewViewController,
             myViewController
         ]
-        setupMiddleButton()
     }
 
-    func setupMiddleButton() {
-        let menuButton = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40)).then {
-            $0.image = TelTreeAsset.add.image
-            $0.isUserInteractionEnabled = false
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if item.title == "ADD" {
+            let writeViewContoller = WriteViewController()
+            writeViewContoller.modalPresentationStyle = .overFullScreen
+            self.present(writeViewContoller, animated: true)
         }
-        var menuButtonFrame = menuButton.frame
-        menuButtonFrame.origin.y = view.bounds.height - menuButtonFrame.height - (self.tabBar.frame.height / 2) - 10
-        menuButtonFrame.origin.x = view.bounds.width/2 - menuButtonFrame.size.width/2
-        menuButton.frame = menuButtonFrame
-        
-        view.addSubview(menuButton)
-        
-        view.layoutIfNeeded()
     }
 }
 

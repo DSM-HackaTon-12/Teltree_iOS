@@ -11,6 +11,11 @@ class HomeViewController: BaseViewController {
         $0.rowHeight = 134
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+
     override func configureViewController() {
         tableView.dataSource = self
         tableView.delegate = self
