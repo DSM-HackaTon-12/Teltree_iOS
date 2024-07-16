@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Then
 
-class MainViewController: BaseViewController {
+class LoginViewController: BaseViewController {
     
     let loginLabel = UILabel().then {
         $0.text = "로그인"

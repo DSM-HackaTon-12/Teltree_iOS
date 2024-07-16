@@ -9,10 +9,10 @@ class TabbarViewController: UITabBarController {
 
     func setUpTabBarLayout() {
         let tabBar: UITabBar = self.tabBar
-        tabBar.unselectedItemTintColor = .gray
-        tabBar.tintColor = TelTreeAsset.main.color
+        tabBar.unselectedItemTintColor = TelTreeAsset.gray300.color
+        tabBar.tintColor = TelTreeAsset.green200.color
         tabBar.backgroundColor = .white
-        tabBar.layer.borderColor = UIColor.black.cgColor
+        tabBar.layer.borderColor = TelTreeAsset.gray200.color.cgColor
         tabBar.layer.borderWidth = 1
         self.hidesBottomBarWhenPushed = true
     }
