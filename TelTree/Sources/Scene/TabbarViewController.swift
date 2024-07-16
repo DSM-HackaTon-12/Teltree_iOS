@@ -18,26 +18,36 @@ class TabbarViewController: UITabBarController {
     }
 
     func setUpTabBarItem() {
-        let homeViewController = UINavigationController(rootViewController:  HomeViewController())
+        let homeViewController = BaseNavigationController(
+            rootViewController:  HomeViewController()
+        )
         homeViewController.tabBarItem = UITabBarItem(
             title: "HOME",
             image: TelTreeAsset.home.image,
             selectedImage: TelTreeAsset.home.image
         )
-        let mapViewController = UINavigationController(rootViewController: MapViewController())
+        let mapViewController = BaseNavigationController(
+            rootViewController: MapViewController()
+        )
         mapViewController.tabBarItem = UITabBarItem(
             title: "MAP",
             image: TelTreeAsset.map.image,
             selectedImage: TelTreeAsset.map.image
         )
-        let writeViewController = WriteViewController()
-        let reviewViewController = ReviewViewController()
+        let writeViewController = BaseNavigationController(
+            rootViewController: WriteViewController()
+        )
+        let reviewViewController = BaseNavigationController(
+            rootViewController: ReviewViewController()
+        )
         reviewViewController.tabBarItem = UITabBarItem(
             title: "REVIEW",
             image: TelTreeAsset.star.image,
             selectedImage: TelTreeAsset.star.image
         )
-        let myViewController = MyViewController()
+        let myViewController = BaseNavigationController(
+            rootViewController: MyViewController()
+        )
         myViewController.tabBarItem = UITabBarItem(
             title: "MY",
             image: TelTreeAsset.person.image,
