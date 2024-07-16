@@ -42,4 +42,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let donationDetailViewController = DonationDetailViewController()
+        self.navigationController?.pushViewController(
+            donationDetailViewController,
+            animated: true
+            
+        )
+    }
 }
