@@ -18,13 +18,13 @@ class TabbarViewController: UITabBarController {
     }
 
     func setUpTabBarItem() {
-        let homeViewController = HomeViewController()
+        let homeViewController = UINavigationController(rootViewController:  HomeViewController())
         homeViewController.tabBarItem = UITabBarItem(
             title: "HOME",
             image: TelTreeAsset.home.image,
             selectedImage: TelTreeAsset.home.image
         )
-        let mapViewController = MapViewController()
+        let mapViewController = UINavigationController(rootViewController: MapViewController())
         mapViewController.tabBarItem = UITabBarItem(
             title: "MAP",
             image: TelTreeAsset.map.image,
