@@ -1,8 +1,10 @@
 import UIKit
 import SnapKit
 import Then
+import Moya
 
 class LoginViewController: BaseViewController {
+    private let provider = MoyaProvider<UserAPI>()
     
     let loginLabel = UILabel().then {
         $0.text = "로그인"
@@ -56,6 +58,14 @@ class LoginViewController: BaseViewController {
     }
     
     override func addView() {
+        provider.request(.login(email: emailField.text!, password: pwdField.text!)) { result in
+            switch result {
+            case .success:
+                print("성공")
+            case .failure:
+                print("Asdf")
+            }
+        }
         [
             loginLabel,
             emailLabel,
