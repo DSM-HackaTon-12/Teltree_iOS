@@ -1,5 +1,168 @@
 import UIKit
+import SnapKit
+import Then
 
 class WriteViewController: BaseViewController {
+    let scrollView = UIScrollView()
+    let contentView = UIView()
+    let imageView = UIImageView().then {
+        $0.backgroundColor = .gray
+    }
+    let backButton = UIButton().then {
+        $0.setTitle("취소", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+    @objc func backButtonTapped() {
+        self.dismiss(animated: true)
+    }
     
+    let titleLabel = UILabel().then {
+        $0.text = "제목"
+    }
+    let titleField = UITextField().then {
+        $0.setTelTreeTextField(placeholder: "제목을 작성해 주세요", radius: 8)
+    }
+    let addressLabel = UILabel().then {
+        $0.text = "장소"
+    }
+    let addressField = UITextField().then {
+        $0.setTelTreeTextField(placeholder: "장소를 작성해 주세요", radius: 8)
+    }
+    let dateLabel = UILabel().then {
+        $0.text = "날짜"
+    }
+    let dateStartField = UITextField().then {
+        $0.setTelTreeTextField(placeholder: "YYYY-MM-DD")
+    }
+    let mLabel = UILabel().then {
+        $0.text = "~"
+        $0.font = .systemFont(ofSize: 20)
+        $0.textColor = TelTreeAsset.gray400.color
+    }
+    let dateEndField = UITextField().then {
+        $0.setTelTreeTextField(placeholder: "YYYY-MM-DD")
+    }
+    let phoneLabel = UILabel().then {
+        $0.text = "연락처"
+    }
+    let phoneField = UITextField().then {
+        $0.setTelTreeTextField(placeholder: "연락처를 작성해 주세요", radius: 8)
+    }
+    let detailLabel = UILabel().then {
+        $0.text = "내용"
+    }
+    let detailTextView = UITextView().then {
+        $0.text = "내용을 작성해 주세요"
+        $0.font = .systemFont(ofSize: 16, weight: .light)
+        $0.textColor = TelTreeAsset.gray400.color
+        $0.backgroundColor = TelTreeAsset.gray100.color
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = TelTreeAsset.gray200.color.cgColor
+        $0.layer.cornerRadius = 8
+        $0.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15);
+    }
+    let completedButton = UIButton().then {
+        $0.setTelTreeButton(setTitle: "작성완료")
+    }
+    override func addView() {
+        self.view.addSubview(scrollView)
+        self.scrollView.addSubview(contentView)
+        [
+            imageView,
+            backButton,
+            titleLabel,
+            titleField,
+            addressLabel,
+            addressField,
+            dateLabel,
+            dateStartField,
+            mLabel,
+            dateEndField,
+            phoneLabel,
+            phoneField,
+            detailLabel,
+            detailTextView,
+            completedButton
+        ].forEach(self.contentView.addSubview(_:))
+    }
+    override func setLayout() {
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.bottom.equalTo(completedButton.snp.bottom).offset(31)
+        }
+        imageView.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+            $0.height.equalTo(253)
+        }
+        backButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20)
+            $0.left.equalToSuperview().inset(21)
+        }
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(15)
+            $0.left.equalToSuperview().inset(21)
+        }
+        titleField.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(3)
+            $0.left.right.equalToSuperview().inset(21)
+            $0.height.equalTo(50)
+        }
+        addressLabel.snp.makeConstraints {
+            $0.top.equalTo(titleField.snp.bottom).offset(15)
+            $0.left.equalToSuperview().inset(21)
+        }
+        addressField.snp.makeConstraints {
+            $0.top.equalTo(addressLabel.snp.bottom).offset(3)
+            $0.left.right.equalToSuperview().inset(21)
+            $0.height.equalTo(50)
+        }
+        dateLabel.snp.makeConstraints {
+            $0.top.equalTo(addressField.snp.bottom).offset(15)
+            $0.left.equalToSuperview().inset(21)
+        }
+        dateStartField.snp.makeConstraints {
+            $0.top.equalTo(dateLabel.snp.bottom).offset(3)
+            $0.right.equalTo(mLabel.snp.left).offset(-19)
+            $0.width.equalTo(150)
+            $0.height.equalTo(50)
+        }
+        mLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(dateStartField.snp.top).offset(13)
+        }
+        dateEndField.snp.makeConstraints {
+            $0.top.equalTo(dateLabel.snp.bottom).offset(3)
+            $0.left.equalTo(mLabel.snp.right).offset(19)
+            $0.width.equalTo(150)
+            $0.height.equalTo(50)
+        }
+        phoneLabel.snp.makeConstraints {
+            $0.top.equalTo(dateStartField.snp.bottom).offset(15)
+            $0.left.equalToSuperview().inset(21)
+        }
+        phoneField.snp.makeConstraints {
+            $0.top.equalTo(phoneLabel.snp.bottom).offset(3)
+            $0.left.right.equalToSuperview().inset(21)
+            $0.height.equalTo(50)
+        }
+        detailLabel.snp.makeConstraints {
+            $0.top.equalTo(phoneField.snp.bottom).offset(15)
+            $0.left.equalToSuperview().inset(21)
+        }
+        detailTextView.snp.makeConstraints {
+            $0.top.equalTo(detailLabel.snp.bottom).offset(3)
+            $0.left.right.equalToSuperview().inset(21)
+            $0.height.equalTo(200)
+        }
+        completedButton.snp.makeConstraints {
+            $0.top.equalTo(detailTextView.snp.bottom).offset(24)
+            $0.left.right.equalToSuperview().inset(31)
+            $0.height.equalTo(50)
+        }
+    }
 }

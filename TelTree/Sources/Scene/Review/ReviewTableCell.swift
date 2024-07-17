@@ -24,9 +24,7 @@ class ReviewTableCell: UITableViewCell {
         $0.font = .systemFont(ofSize: 14)
     }
     let reviewButton = UIButton().then {
-        $0.setTitle("리뷰 작성하러 가기", for: .normal)
-        $0.backgroundColor = TelTreeAsset.green200.color
-        $0.layer.cornerRadius = 25
+        $0.setTelTreeButton(setTitle: "리뷰 작성하러 가기")
     }
 
     override func layoutSubviews() {
