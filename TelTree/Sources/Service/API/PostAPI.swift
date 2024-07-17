@@ -3,8 +3,8 @@ import UIKit
 import Moya
 
 enum PostAPI {
-    case register(request: RegisterRequest)
-    case detail(postId: Int)
+    case register(request: RegisterRequest, accessToken: String)
+    case mainpage
 }
 
 extension PostAPI: TargetType {
@@ -16,8 +16,8 @@ extension PostAPI: TargetType {
         switch self {
         case .register:
             return "/post/create"
-        case let .detail(postId):
-            return "/post/\(postId)"
+        case .mainpage:
+            return "/post/mainpage"
         }
     }
 
@@ -25,15 +25,14 @@ extension PostAPI: TargetType {
         switch self {
         case .register:
             return .post
-        case .detail:
+        case .mainpage:
             return .get
         }
     }
 
     var task: Moya.Task {
         switch self {
-            
-        case let .register(request):
+        case let .register(request, _):
             return .requestJSONEncodable(request)
         default:
             return .requestPlain
@@ -41,6 +40,12 @@ extension PostAPI: TargetType {
     }
 
     var headers: [String: String]? {
-        return nil
+        
+        switch self {
+        case let .register(_, accessToken):
+            return ["Authorization": "Barrer \(accessToken)"]
+        case .mainpage:
+            return Header.accessToken.header()
+        }
     }
 }

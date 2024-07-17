@@ -1,24 +1,12 @@
 import Foundation
 
-struct RegisterRequest: Encodable {
-    let post: PostRequest
+struct RegisterRequest: Codable {
+    let title, content, address, contact, startDate, endDate, imageURL: String
 
-    init(post: PostRequest) {
-        self.post = post
-    }
-
-}
-struct PostRequest: Encodable {
-    let cartegory, title, explanation, address, contact, startDate, endDate, img: String
-
-    init(cartegory: String, title: String, explanation: String, address: String, contact: String, startDate: String, endDate: String, img: String) {
-        self.cartegory = cartegory
-        self.title = title
-        self.explanation = explanation
-        self.address = address
-        self.contact = contact
-        self.startDate = startDate
-        self.endDate = endDate
-        self.img = img
+    enum CodingKeys: String, CodingKey {
+        case title, content, address, contact
+        case startDate = "start_date"
+        case endDate = "end_date"
+        case imageURL = "image_url"
     }
 }

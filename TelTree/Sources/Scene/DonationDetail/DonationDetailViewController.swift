@@ -57,7 +57,15 @@ class DonationDetailViewController: BaseViewController {
     
     let applyButton = UIButton().then {
         $0.setTelTreeButton(setTitle: "신청하기")
+        $0.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
     }
+    
+    @objc func applyButtonTapped() {
+        print("냠")
+        let secondVC = HomeViewController()
+        self.navigationController?.popViewController(animated: true)
+    }
+
 
     override func configureViewController() {
         self.tabBarController?.tabBar.isHidden = true

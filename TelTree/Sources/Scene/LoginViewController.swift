@@ -51,6 +51,7 @@ class LoginViewController: BaseViewController {
             self.provider.request(.login(email: self.emailField.text!, password: self.pwdField.text!)) { result in
                 switch result {
                 case .success(let response):
+                    print("성공")
                     do {
                         let decodeResponse = try JSONDecoder().decode(TokenResponse.self, from: response.data)
                         Token.accessToken = decodeResponse.access
@@ -60,6 +61,7 @@ class LoginViewController: BaseViewController {
                         print(error.response?.statusCode)
                     }
                 case .failure(let error):
+                    print("실패")
                     guard let error = error as? MoyaError else { return }
                     print(error.response?.statusCode)
                 }

@@ -1,8 +1,13 @@
 import UIKit
 import SnapKit
 import Then
+import Moya
 
 class HomeTableViewCell: UITableViewCell {
+    
+    private let manager: Session = Session(configuration: URLSessionConfiguration.default, serverTrustManager: CustomServerTrustManager())
+    private lazy var provider = MoyaProvider<PostAPI>(session: manager, plugins: [MoyaLoggingPlugin()])
+    
     static let identifier = "HomeTableViewCell"
     let donationImageView = UIImageView().then {
         $0.layer.cornerRadius = 5
@@ -10,7 +15,7 @@ class HomeTableViewCell: UITableViewCell {
         $0.backgroundColor = .gray
     }
     let titleLabel = UILabel().then {
-        $0.text = "해커톤 하는데 mc봐주실분"
+        $0.text = "해커톤"
         $0.font = .systemFont(ofSize: 16, weight: .medium)
         $0.numberOfLines = 2
     }
@@ -52,4 +57,8 @@ class HomeTableViewCell: UITableViewCell {
             $0.right.equalToSuperview()
         }
     }
+    
+//    setup(title, subTitle, data) {
+//        titleLabel.text = title
+//    }
 }

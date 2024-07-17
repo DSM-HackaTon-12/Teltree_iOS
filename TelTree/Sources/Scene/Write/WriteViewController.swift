@@ -1,8 +1,14 @@
 import UIKit
+import Moya
+import Alamofire
 import SnapKit
 import Then
 
 class WriteViewController: BaseViewController {
+    
+    private let manager: Session = Session(configuration: URLSessionConfiguration.default, serverTrustManager: CustomServerTrustManager())
+    private lazy var provider = MoyaProvider<PostAPI>(session: manager, plugins: [MoyaLoggingPlugin()])
+    
     let scrollView = UIScrollView()
     let contentView = UIView()
     let imageView = UIImageView().then {
@@ -53,9 +59,6 @@ class WriteViewController: BaseViewController {
         $0.text = "내용"
     }
     let detailTextView = UITextView().then {
-        $0.text = "내용을 작성해 주세요"
-        $0.font = .systemFont(ofSize: 16, weight: .light)
-        $0.textColor = TelTreeAsset.gray400.color
         $0.backgroundColor = TelTreeAsset.gray100.color
         $0.layer.borderWidth = 1
         $0.layer.borderColor = TelTreeAsset.gray200.color.cgColor
@@ -64,7 +67,31 @@ class WriteViewController: BaseViewController {
     }
     let completedButton = UIButton().then {
         $0.setTelTreeButton(setTitle: "작성완료")
+        $0.addTarget(self, action: #selector(completedButtonTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
+    
+    @objc func completedButtonTapped() {
+        DispatchQueue.main.async {
+            print("버튼 클릭 토큰 확인 : \(Token.accessToken)")
+            self.provider.request(.register(request: RegisterRequest(title: self.titleField.text!, content: self.detailTextView.text!, address: self.addressField.text!, contact: self.phoneField.text!, startDate: self.dateStartField.text!, endDate: self.dateEndField.text!, imageURL: "1234"), accessToken: Token.accessToken!)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let decodeResponse = try JSONDecoder().decode(TokenResponse.self, from: response.data)
+                        self.dismiss(animated: true)
+                    } catch let error {
+                        guard let error = error as? MoyaError else { return }
+                        print(error.response?.statusCode)
+                    }
+                case .failure(let error):
+                    guard let error = error as? MoyaError else { return }
+                    print(error.response?.statusCode)
+                }
+            }
+        }
+    }
+    
     override func addView() {
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(contentView)

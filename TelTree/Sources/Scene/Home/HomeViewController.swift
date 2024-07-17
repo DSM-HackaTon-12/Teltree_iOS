@@ -1,8 +1,12 @@
 import UIKit
 import SnapKit
 import Then
+import Moya
 
 class HomeViewController: BaseViewController {
+    
+    private let manager: Session = Session(configuration: URLSessionConfiguration.default, serverTrustManager: CustomServerTrustManager())
+    private lazy var provider = MoyaProvider<PostAPI>(session: manager, plugins: [MoyaLoggingPlugin()])
     
     let tableView = UITableView().then {
         $0.register(
@@ -12,9 +16,15 @@ class HomeViewController: BaseViewController {
         $0.rowHeight = 134
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        getHomeList()
     }
     
     override func configureViewController() {
@@ -25,6 +35,17 @@ class HomeViewController: BaseViewController {
     
     override func addView() {
         self.view.addSubview(tableView)
+    }
+    
+    private func getHomeList() {
+        provider.request(.mainpage){ result in
+            switch result {
+            case .success(let response):
+                print(response)
+            case .failure(let error):
+                print("실패")
+            }
+        }
     }
     
     override func setLayout() {
@@ -47,6 +68,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: HomeTableViewCell.identifier,
             for: indexPath
         )
+//        let model = data[indexPath.row]
+//        cell.setup(model)
         return cell
     }
     
