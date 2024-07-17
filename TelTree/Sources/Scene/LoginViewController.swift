@@ -4,7 +4,8 @@ import Then
 import Moya
 
 class LoginViewController: BaseViewController {
-    private let provider = MoyaProvider<UserAPI>()
+    private let manager: Session = Session(configuration: URLSessionConfiguration.default, serverTrustManager: CustomServerTrustManager())
+    private lazy var provider = MoyaProvider<UserAPI>(session: manager, plugins: [MoyaLoggingPlugin()])
     
     let loginLabel = UILabel().then {
         $0.text = "로그인"
@@ -46,23 +47,24 @@ class LoginViewController: BaseViewController {
     }
     
     @objc func loginButtonTapped() {
-        provider.request(.login(email: emailField.text!, password: pwdField.text!)) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let decodeResponse = try JSONDecoder().decode(TokenResponse.self, from: response.data)
-                    print(decodeResponse.access_token)
-                } catch let error {
+        DispatchQueue.main.async {
+            self.provider.request(.login(email: self.emailField.text!, password: self.pwdField.text!)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let decodeResponse = try JSONDecoder().decode(TokenResponse.self, from: response.data)
+                        print(decodeResponse.access_token)
+                    } catch let error {
+                        print(error.localizedDescription)
+                    }
+                case .failure(let error):
                     print(error.localizedDescription)
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
             }
         }
     }
     
     override func addView() {
-        
         [
             loginLabel,
             emailLabel,
