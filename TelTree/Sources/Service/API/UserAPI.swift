@@ -9,15 +9,15 @@ enum UserAPI {
 
 extension UserAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "https://192.168.64.195:8080")!
+        return URL(string: "http://13.125.214.128:3000")!
     }
 
     var path: String {
         switch self {
         case .login:
-            return "/users/login"
+            return "/user/login"
         case .signup:
-            return "/users/signup"
+            return "/user/signup"
         }
     }
 

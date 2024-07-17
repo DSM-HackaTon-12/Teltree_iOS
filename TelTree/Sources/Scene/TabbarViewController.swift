@@ -5,6 +5,18 @@ class TabbarViewController: UITabBarController {
         super.viewWillAppear(animated)
         setUpTabBarLayout()
         setUpTabBarItem()
+
+        if Token.accessToken == nil {
+            let loginViewController = LoginViewController()
+            loginViewController.modalPresentationStyle = .fullScreen
+            DispatchQueue.main.async {
+                self.present(loginViewController, animated: true)
+            }
+        }
+    }
+
+    override func viewDidLoad() {
+        Token.accessToken = nil
     }
 
     func setUpTabBarLayout() {

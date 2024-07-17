@@ -9,7 +9,7 @@ enum PostAPI {
 
 extension PostAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "http://")!
+        return URL(string: "http://13.125.214.128:3000")!
     }
 
     var path: String {
