@@ -4,6 +4,7 @@ import Moya
 
 enum UserAPI {
     case login(email: String, password: String)
+    case signup(username: String, password: String, email: String)
 }
 
 extension UserAPI: TargetType {
@@ -15,12 +16,16 @@ extension UserAPI: TargetType {
         switch self {
         case .login:
             return "/users/login"
+        case .signup:
+            return "/users/signup"
         }
     }
 
     var method: Moya.Method {
         switch self {
         case .login:
+            return .post
+        case .signup:
             return .post
         }
     }
@@ -33,6 +38,15 @@ extension UserAPI: TargetType {
                 parameters: [
                     "email": email,
                     "password": password
+                ],
+                encoding: JSONEncoding.default
+            )
+        case let .signup(username, password, email):
+            return .requestParameters(
+                parameters: [
+                    "username": username,
+                    "password": password,
+                    "email": email
                 ],
                 encoding: JSONEncoding.default
             )
