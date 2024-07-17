@@ -74,7 +74,7 @@ class WriteViewController: BaseViewController {
     @objc func completedButtonTapped() {
         DispatchQueue.main.async {
             print("버튼 클릭 토큰 확인 : \(Token.accessToken)")
-            self.provider.request(.register(request: RegisterRequest(title: self.titleField.text!, content: self.detailTextView.text!, address: self.addressField.text!, contact: self.phoneField.text!, startDate: self.dateStartField.text!, endDate: self.dateEndField.text!, imageURL: "1234"), accessToken: Token.accessToken!)) { result in
+            self.provider.request(.register(request: RegisterRequest(title: self.titleField.text!, content: self.detailTextView.text!, address: self.addressField.text!, contact: self.phoneField.text!, startDate: self.dateStartField.text!, endDate: self.dateEndField.text!, imageURL: "1234"))) { result in
                 switch result {
                 case .success(let response):
                     do {

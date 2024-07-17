@@ -2,9 +2,11 @@ import UIKit
 import Moya
 import SnapKit
 import Then
+import Kingfisher
 
 class DonationDetailViewController: BaseViewController {
-    private let provider = MoyaProvider<UserAPI>()
+    var postId: Int = 0
+    private let provider = MoyaProvider<PostAPI>(plugins: [MoyaLoggingPlugin()])
     
     let titleImage = UIImageView().then {
         $0.backgroundColor = .gray
@@ -61,9 +63,40 @@ class DonationDetailViewController: BaseViewController {
     }
     
     @objc func applyButtonTapped() {
-        print("냠")
-        let secondVC = HomeViewController()
-        self.navigationController?.popViewController(animated: true)
+        provider.request(.apply(postId: self.postId)) { result in
+            switch result {
+            case .success:
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        provider.request(.detail(postId: self.postId)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let reponseData = try JSONDecoder().decode(FetchDonationResponse.self, from: response.data)
+                    self.titleImage.kf.setImage(with: URL(string: reponseData.post.img))
+                    self.profileImage.kf.setImage(with: URL(string: reponseData.post.writer.profile))
+                    self.profileLabel.text = reponseData.post.writer.username
+                    self.titleLabel.text = reponseData.post.title
+                    self.addressLabel.text = reponseData.post.address
+                    self.dateLabel.text = "\(reponseData.post.startDate) ~ \(reponseData.post.endDate)"
+                    self.phoneLabel.text = reponseData.post.contact
+                    self.detailLabel.text = reponseData.post.content
+                } catch let error {
+                    print(error)
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 
 

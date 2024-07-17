@@ -2,9 +2,10 @@ import UIKit
 import SnapKit
 import Then
 import Moya
+import Kingfisher
 
 class HomeTableViewCell: UITableViewCell {
-    
+    var postId: Int = 0
     private let manager: Session = Session(configuration: URLSessionConfiguration.default, serverTrustManager: CustomServerTrustManager())
     private lazy var provider = MoyaProvider<PostAPI>(session: manager, plugins: [MoyaLoggingPlugin()])
     
@@ -12,7 +13,6 @@ class HomeTableViewCell: UITableViewCell {
     let donationImageView = UIImageView().then {
         $0.layer.cornerRadius = 5
         $0.clipsToBounds = true
-        $0.backgroundColor = .gray
     }
     let titleLabel = UILabel().then {
         $0.text = "해커톤"
@@ -58,7 +58,11 @@ class HomeTableViewCell: UITableViewCell {
         }
     }
     
-//    setup(title, subTitle, data) {
-//        titleLabel.text = title
-//    }
+    func setup(image: String, title: String, subTitle: String, data: String, postId: Int) {
+        donationImageView.kf.setImage(with: URL(string: image))
+        titleLabel.text = title
+        addressLabel.text = subTitle
+        periodLabel.text = data
+        self.postId = postId
+    }
 }

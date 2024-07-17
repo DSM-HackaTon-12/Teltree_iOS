@@ -9,7 +9,7 @@ enum UserAPI {
 
 extension UserAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "http://13.125.214.128:3000")!
+        return URL(string: "http://54.180.237.248:3000")!
     }
 
     var path: String {

@@ -4,7 +4,9 @@ import Then
 import Moya
 
 class HomeViewController: BaseViewController {
-    
+    var listData: [MainpageEntity] = []
+    var data: [Int] = [3,4,24,43,24]
+
     private let manager: Session = Session(configuration: URLSessionConfiguration.default, serverTrustManager: CustomServerTrustManager())
     private lazy var provider = MoyaProvider<PostAPI>(session: manager, plugins: [MoyaLoggingPlugin()])
     
@@ -18,7 +20,6 @@ class HomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,8 +42,17 @@ class HomeViewController: BaseViewController {
         provider.request(.mainpage){ result in
             switch result {
             case .success(let response):
-                print(response)
+                do {
+                    let responseData = try JSONDecoder().decode(MainpageResponse.self, from: response.data)
+                    self.listData = responseData.posts.map {
+                        $0.toEntity()
+                    }
+                    self.tableView.reloadData()
+                } catch let error {
+                    print(error.localizedDescription)
+                }
             case .failure(let error):
+                print(error.localizedDescription)
                 print("실패")
             }
         }
@@ -60,21 +70,30 @@ class HomeViewController: BaseViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        listData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: HomeTableViewCell.identifier,
             for: indexPath
+        ) as? HomeTableViewCell
+        let data = listData[indexPath.row]
+        cell?.setup(
+            image: data.imageURL,
+            title: data.title,
+            subTitle: data.address,
+            data: "\(data.startDate) ~ \(data.endDate)",
+            postId: data.postID
         )
-//        let model = data[indexPath.row]
-//        cell.setup(model)
-        return cell
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell
+
         let donationDetailViewController = DonationDetailViewController()
+        donationDetailViewController.postId = cell?.postId ?? 0
         self.navigationController?.pushViewController(
             donationDetailViewController,
             animated: true

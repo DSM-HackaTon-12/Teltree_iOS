@@ -4,31 +4,27 @@ struct TokenResponse: Decodable {
     let access: String
 }
 
-//struct FetchDonationResponse: Codable {
-//    let post: Post
-//}
-//
-//// MARK: - Post
-//struct Post: Codable {
-//    let writer: Writer
-//    let cartegory, title, explanation, address: String
-//    let contact, startDate, endDate, img: String
-//}
-//
-//// MARK: - Writer
-//struct Writer: Codable {
-//    let username, profile, email: String
-//}
-
-struct MainpageResponse: Codable {
-    let posts: Post
-    
-    init(posts: Post) {
-        self.posts = posts
-    }
+struct FetchDonationResponse: Codable {
+    let post: PostData
 }
 
-struct Post: Codable {
+// MARK: - Post
+struct PostData: Codable {
+    let writer: Writer
+    let title, content, address: String
+    let contact, startDate, endDate, img: String
+}
+
+// MARK: - Writer
+struct Writer: Codable {
+    let username, profile, email: String
+}
+
+struct MainpageResponse: Decodable {
+    let posts: [Post]
+}
+
+struct Post: Decodable {
     let postID: Int
     let title, address, startDate, endDate, imageURL: String
 
@@ -39,14 +35,17 @@ struct Post: Codable {
         case endDate = "end_date"
         case imageURL = "image_url"
     }
-    
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.postID = try container.decode(Int.self, forKey: .postID)
-        self.title = try container.decode(String.self, forKey: .title)
-        self.address = try container.decode(String.self, forKey: .address)
-        self.startDate = try container.decode(String.self, forKey: .startDate)
-        self.endDate = try container.decode(String.self, forKey: .endDate)
-        self.imageURL = try container.decode(String.self, forKey: .imageURL)
+}
+
+extension Post {
+    func toEntity() -> MainpageEntity {
+        return .init(
+            postID: self.postID,
+            title: self.title,
+            address: self.address,
+            startDate: self.startDate,
+            endDate: self.endDate,
+            imageURL: self.imageURL
+        )
     }
 }
