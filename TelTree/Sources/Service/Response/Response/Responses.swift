@@ -1,7 +1,7 @@
 import Foundation
 
 struct TokenResponse: Decodable {
-    let access_token: String
+    let access: String
 }
 
 struct FetchDonationResponse: Codable {

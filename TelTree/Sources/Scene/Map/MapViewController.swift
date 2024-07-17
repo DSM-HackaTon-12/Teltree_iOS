@@ -31,8 +31,8 @@ class MapViewController: BaseViewController {
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
 
-        self.setWebCookie(cookie: [:
-//            "accToken": Token.accessToken ?? "nil"
+        self.setWebCookie(cookie: [
+            "access_token": Token.accessToken ?? "nil"
         ], configuration: configuration)
 
         return configuration

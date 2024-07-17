@@ -53,12 +53,15 @@ class LoginViewController: BaseViewController {
                 case .success(let response):
                     do {
                         let decodeResponse = try JSONDecoder().decode(TokenResponse.self, from: response.data)
-                        print(decodeResponse.access_token)
+                        Token.accessToken = decodeResponse.access
+                        self.dismiss(animated: true)
                     } catch let error {
-                        print(error.localizedDescription)
+                        guard let error = error as? MoyaError else { return }
+                        print(error.response?.statusCode)
                     }
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    guard let error = error as? MoyaError else { return }
+                    print(error.response?.statusCode)
                 }
             }
         }
