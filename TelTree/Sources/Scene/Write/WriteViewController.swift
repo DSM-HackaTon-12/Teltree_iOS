@@ -12,11 +12,35 @@ class WriteViewController: BaseViewController {
     let scrollView = UIScrollView()
     let contentView = UIView()
     let imageView = UIImageView().then {
-        $0.backgroundColor = .gray
+        $0.contentMode = .scaleAspectFit
+    }
+    let imageButton = UIButton().then {
+        $0.setTitle("사진 추가하기", for: .normal)
+        $0.setTitleColor(TelTreeAsset.gray300.color, for: .normal)
+        $0.addTarget(self, action: #selector(selectImageTapped), for: .touchUpInside)
+    }
+    var imageURL = ""
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            imageView.image = selectedImage
+        }
+        
+        if let imageUrl = info[.imageURL] as? URL {
+            imageURL = "\(imageUrl)"
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    @objc func selectImageTapped() {
+        let imagePicker = UIImagePickerController().then {
+            $0.delegate = self
+            $0.sourceType = .photoLibrary
+        }
+        present(imagePicker, animated: true, completion: nil)
     }
     let backButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.setTitleColor(TelTreeAsset.gray400.color, for: .normal)
         $0.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     @objc func backButtonTapped() {
@@ -74,7 +98,7 @@ class WriteViewController: BaseViewController {
     @objc func completedButtonTapped() {
         DispatchQueue.main.async {
             print("버튼 클릭 토큰 확인 : \(Token.accessToken)")
-            self.provider.request(.register(request: RegisterRequest(title: self.titleField.text!, content: self.detailTextView.text!, address: self.addressField.text!, contact: self.phoneField.text!, startDate: self.dateStartField.text!, endDate: self.dateEndField.text!, imageURL: "1234"), token: Token.accessToken ?? "")) { result in
+            self.provider.request(.register(request: RegisterRequest(title: self.titleField.text!, content: self.detailTextView.text!, address: self.addressField.text!, contact: self.phoneField.text!, startDate: self.dateStartField.text!, endDate: self.dateEndField.text!, imageURL: self.imageURL), token: Token.accessToken ?? "")) { result in
                 switch result {
                 case .success(let response):
                     do {
@@ -97,6 +121,7 @@ class WriteViewController: BaseViewController {
         self.scrollView.addSubview(contentView)
         [
             imageView,
+            imageButton,
             backButton,
             titleLabel,
             titleField,
@@ -125,6 +150,10 @@ class WriteViewController: BaseViewController {
         imageView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
             $0.height.equalTo(253)
+        }
+        imageButton.snp.makeConstraints {
+            $0.bottom.equalTo(imageView.snp.bottom).inset(12)
+            $0.right.equalToSuperview().inset(20)
         }
         backButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
@@ -192,4 +221,8 @@ class WriteViewController: BaseViewController {
             $0.height.equalTo(50)
         }
     }
+}
+
+extension WriteViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
 }

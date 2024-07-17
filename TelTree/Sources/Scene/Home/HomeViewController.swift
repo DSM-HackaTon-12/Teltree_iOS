@@ -5,7 +5,6 @@ import Moya
 
 class HomeViewController: BaseViewController {
     var listData: [MainpageEntity] = []
-    var data: [Int] = [3,4,24,43,24]
 
     private let manager: Session = Session(configuration: URLSessionConfiguration.default, serverTrustManager: CustomServerTrustManager())
     private lazy var provider = MoyaProvider<PostAPI>(session: manager, plugins: [MoyaLoggingPlugin()])

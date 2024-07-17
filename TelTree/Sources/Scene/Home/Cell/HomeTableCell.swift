@@ -15,16 +15,13 @@ class HomeTableViewCell: UITableViewCell {
         $0.clipsToBounds = true
     }
     let titleLabel = UILabel().then {
-        $0.text = "해커톤"
         $0.font = .systemFont(ofSize: 16, weight: .medium)
         $0.numberOfLines = 2
     }
     let addressLabel = UILabel().then {
-        $0.text = "달나라"
         $0.font = .systemFont(ofSize: 12, weight: .thin)
     }
     let periodLabel = UILabel().then {
-        $0.text = "3099.07.16 ~ 3199.07.19"
         $0.font = .systemFont(ofSize: 14)
     }
 
