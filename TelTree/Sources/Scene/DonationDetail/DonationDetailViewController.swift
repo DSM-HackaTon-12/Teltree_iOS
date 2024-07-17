@@ -1,8 +1,11 @@
 import UIKit
+import Moya
 import SnapKit
 import Then
 
 class DonationDetailViewController: BaseViewController {
+    private let provider = MoyaProvider<UserAPI>()
+    
     let titleImage = UIImageView().then {
         $0.backgroundColor = .gray
     }

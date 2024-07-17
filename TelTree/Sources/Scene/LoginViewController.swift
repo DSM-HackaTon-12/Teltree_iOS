@@ -48,10 +48,15 @@ class LoginViewController: BaseViewController {
     @objc func loginButtonTapped() {
         provider.request(.login(email: emailField.text!, password: pwdField.text!)) { result in
             switch result {
-            case .success:
-                print("성공")
-            case .failure:
-                print("Asdf")
+            case .success(let response):
+                do {
+                    let decodeResponse = try JSONDecoder().decode(TokenResponse.self, from: response.data)
+                    print(decodeResponse.access_token)
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
