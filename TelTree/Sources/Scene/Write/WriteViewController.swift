@@ -11,13 +11,11 @@ class WriteViewController: BaseViewController {
     let backButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-//        $0.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
-//    @objc func backButtonTapped() {
-//        let tabbarViewController = TabbarViewController()
-//        tabbarViewController.modalPresentationStyle = .
-//        self.present(tabbarViewController, animated: true)
-//    }
+    @objc func backButtonTapped() {
+        self.dismiss(animated: true)
+    }
     
     let titleLabel = UILabel().then {
         $0.text = "제목"

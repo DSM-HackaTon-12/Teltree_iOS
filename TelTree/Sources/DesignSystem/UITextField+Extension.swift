@@ -9,6 +9,7 @@ extension UITextField {
 
     func setTelTreeTextField(placeholder: String, radius: CGFloat = 25) {
         self.placeholder = placeholder
+        
         self.backgroundColor = TelTreeAsset.gray100.color
         self.layer.borderWidth = 1
         self.layer.borderColor = TelTreeAsset.gray200.color.cgColor

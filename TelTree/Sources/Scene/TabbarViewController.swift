@@ -71,7 +71,9 @@ class TabbarViewController: UITabBarController {
         if item.title == "ADD" {
             let writeViewContoller = WriteViewController()
             writeViewContoller.modalPresentationStyle = .overFullScreen
-            self.present(writeViewContoller, animated: true)
+            self.present(writeViewContoller, animated: true) {
+                self.selectedIndex = 0
+            }
         }
     }
 }
