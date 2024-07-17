@@ -34,9 +34,9 @@ class TabbarViewController: UITabBarController {
             image: TelTreeAsset.map.image,
             selectedImage: TelTreeAsset.map.image
         )
-        let writeViewController = BaseNavigationController(
-            rootViewController: WriteViewController()
-        )
+        let writeViewController = UIViewController().then {
+            $0.view.backgroundColor = .white
+        }
         writeViewController.tabBarItem = UITabBarItem(
             title: "ADD",
             image: TelTreeAsset.add.image,

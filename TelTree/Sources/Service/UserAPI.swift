@@ -9,7 +9,7 @@ enum UserAPI {
 
 extension UserAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "https://")!
+        return URL(string: "https://192.168.64.195:8080")!
     }
 
     var path: String {
@@ -28,7 +28,7 @@ extension UserAPI: TargetType {
         }
     }
 
-    var task: Task {
+    var task: Moya.Task {
         switch self {
         case let .login(email, password):
             return .requestParameters(

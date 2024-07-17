@@ -16,12 +16,7 @@ class LoginViewController: BaseViewController {
     }
     
     let emailField = UITextField().then {
-        $0.placeholder = "이메일을 입력해 주세요"
-        $0.backgroundColor = TelTreeAsset.gray100.color
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = TelTreeAsset.gray200.color.cgColor
-        $0.layer.cornerRadius = 25
-        $0.addLeftPadding()
+        $0.setTelTreeTextField(placeholder: "이메일을 입력해 주세요")
     }
     
     let pwdLabel = UILabel().then {
@@ -29,20 +24,13 @@ class LoginViewController: BaseViewController {
     }
     
     let pwdField = UITextField().then {
-        $0.placeholder = "비밀번호를 입력해 주세요"
-        $0.backgroundColor = TelTreeAsset.gray100.color
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = TelTreeAsset.gray200.color.cgColor
-        $0.layer.cornerRadius = 25
+        $0.setTelTreeTextField(placeholder: "비밀번호를 입력해 주세요")
         $0.isSecureTextEntry = true
-        $0.addLeftPadding()
     }
     
     let loginButton = UIButton(type: .system).then {
-        $0.setTitle("로그인", for: .normal)
-        $0.backgroundColor = TelTreeAsset.green200.color
-        $0.layer.cornerRadius = 25
-        $0.tintColor = .white
+        $0.setTelTreeButton(setTitle: "로그인")
+        $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
     let loginCheckLabel = UILabel().then {
@@ -57,7 +45,7 @@ class LoginViewController: BaseViewController {
         $0.setUnderline()
     }
     
-    override func addView() {
+    @objc func loginButtonTapped() {
         provider.request(.login(email: emailField.text!, password: pwdField.text!)) { result in
             switch result {
             case .success:
@@ -66,6 +54,10 @@ class LoginViewController: BaseViewController {
                 print("Asdf")
             }
         }
+    }
+    
+    override func addView() {
+        
         [
             loginLabel,
             emailLabel,
@@ -122,22 +114,4 @@ class LoginViewController: BaseViewController {
 }
 
 
-extension UITextField {
-    func addLeftPadding() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: self.frame.height))
-        self.leftView = paddingView
-        self.leftViewMode = ViewMode.always
-    }
-}
 
-extension UIButton {
-    func setUnderline() {
-        guard let title = title(for: .normal) else { return }
-        let attributedString = NSMutableAttributedString(string: title)
-        attributedString.addAttribute(.underlineStyle,
-                                      value: NSUnderlineStyle.single.rawValue,
-                                      range: NSRange(location: 0, length: title.count)
-        )
-        setAttributedTitle(attributedString, for: .normal)
-    }
-}
