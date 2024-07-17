@@ -63,7 +63,7 @@ class DonationDetailViewController: BaseViewController {
     }
     
     @objc func applyButtonTapped() {
-        provider.request(.apply(postId: self.postId)) { result in
+        provider.request(.apply(postId: self.postId, token: Token.accessToken ?? "")) { result in
             switch result {
             case .success:
                 self.navigationController?.popViewController(animated: true)
@@ -76,7 +76,7 @@ class DonationDetailViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        provider.request(.detail(postId: self.postId)) { result in
+        provider.request(.detail(postId: self.postId, token: Token.accessToken ?? "")) { result in
             switch result {
             case .success(let response):
                 do {

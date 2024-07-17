@@ -16,7 +16,7 @@ class TabbarViewController: UITabBarController {
     }
 
     override func viewDidLoad() {
-//        Token.accessToken = nil
+        Token.accessToken = nil
     }
 
     func setUpTabBarLayout() {

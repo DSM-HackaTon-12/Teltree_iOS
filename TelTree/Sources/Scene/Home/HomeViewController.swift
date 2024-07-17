@@ -39,7 +39,7 @@ class HomeViewController: BaseViewController {
     }
     
     private func getHomeList() {
-        provider.request(.mainpage){ result in
+        provider.request(.mainpage(token: Token.accessToken ?? "")){ result in
             switch result {
             case .success(let response):
                 do {

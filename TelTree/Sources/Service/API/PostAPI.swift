@@ -3,10 +3,10 @@ import UIKit
 import Moya
 
 enum PostAPI {
-    case register(request: RegisterRequest)
-    case mainpage
-    case apply(postId: Int)
-    case detail(postId: Int)
+    case register(request: RegisterRequest, token: String)
+    case mainpage(token: String)
+    case apply(postId: Int, token: String)
+    case detail(postId: Int, token: String)
 }
 
 extension PostAPI: TargetType {
@@ -20,9 +20,9 @@ extension PostAPI: TargetType {
             return "/post/create"
         case .mainpage:
             return "/post/mainpage"
-        case let .apply(postId):
+        case let .apply(postId, _):
             return "/post/apply/\(postId)"
-        case let .detail(postId):
+        case let .detail(postId, _):
             return "/post/\(postId)"
         }
     }
@@ -40,7 +40,7 @@ extension PostAPI: TargetType {
 
     var task: Moya.Task {
         switch self {
-        case let .register(request):
+        case let .register(request, _):
             return .requestJSONEncodable(request)
         default:
             return .requestPlain
@@ -50,8 +50,9 @@ extension PostAPI: TargetType {
     var headers: [String: String]? {
         
         switch self {
-        case .register, .mainpage, .apply, .detail:
-            return ["Authorization": "Barrer " + Token.accessToken!]
+        
+        case .register(_ , token: let token), .mainpage(token: let token),.apply(_, token: let token), .detail(_, token: let token):
+            return ["Authorization": "Barrer " + token]
         }
     }
 }
