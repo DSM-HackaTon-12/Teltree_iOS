@@ -22,4 +22,9 @@ class BaseViewController: UIViewController {
     func setLayout() {}
     func configureViewController() {}
     func bind() {}
+
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+    }
 }

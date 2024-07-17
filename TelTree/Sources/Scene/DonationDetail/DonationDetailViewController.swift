@@ -1,8 +1,11 @@
 import UIKit
+import Moya
 import SnapKit
 import Then
 
 class DonationDetailViewController: BaseViewController {
+    private let provider = MoyaProvider<UserAPI>()
+    
     let titleImage = UIImageView().then {
         $0.backgroundColor = .gray
     }
@@ -53,9 +56,7 @@ class DonationDetailViewController: BaseViewController {
     }
     
     let applyButton = UIButton().then {
-        $0.setTitle("신청하기", for: .normal)
-        $0.backgroundColor = TelTreeAsset.green200.color
-        $0.layer.cornerRadius = 25
+        $0.setTelTreeButton(setTitle: "신청하기")
     }
 
     override func configureViewController() {
