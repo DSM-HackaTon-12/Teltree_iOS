@@ -43,6 +43,7 @@ class LoginViewController: BaseViewController {
         $0.backgroundColor = TelTreeAsset.green200.color
         $0.layer.cornerRadius = 25
         $0.tintColor = .white
+        $0.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
     }
     
     let loginCheckLabel = UILabel().then {
@@ -57,15 +58,27 @@ class LoginViewController: BaseViewController {
         $0.setUnderline()
     }
     
-    override func addView() {
-        provider.request(.login(email: emailField.text!, password: pwdField.text!)) { result in
+    @objc func loginTapped() {
+        provider.request(.login(
+            email: emailField.text!,
+            password: pwdField.text!)
+        ) { result in
             switch result {
-            case .success:
-                print("성공")
-            case .failure:
-                print("Asdf")
+            case .success(let response):
+                do {
+                    let decodeResponse = try JSONDecoder().decode(TokenResponse.self, from: response.data)
+                    print(decodeResponse.access_token)
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
+    }
+    
+    override func addView() {
+        
         [
             loginLabel,
             emailLabel,

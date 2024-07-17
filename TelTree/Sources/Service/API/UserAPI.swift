@@ -4,32 +4,30 @@ import Moya
 
 enum UserAPI {
     case login(email: String, password: String)
-    case signup
 }
 
 extension UserAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "https://")!
+        return URL(string: "http://192.168.1.3:8080")!
     }
 
     var path: String {
         switch self {
         case .login:
-            return "/user/login"
-        case .signup:
-            return "/user/signup"
+            return "/users/login"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .login, .signup:
+        case .login:
             return .post
         }
     }
 
-    var task: Task {
+    var task: Moya.Task {
         switch self {
+            
         case let .login(email, password):
             return .requestParameters(
                 parameters: [
