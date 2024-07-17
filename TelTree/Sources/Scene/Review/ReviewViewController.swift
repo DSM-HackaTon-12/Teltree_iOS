@@ -4,10 +4,6 @@ import Then
 
 class ReviewViewController: BaseViewController {
     
-//    let reviewTitle = UILabel().then {
-//        $0.text = "리뷰"
-//        $0.font = .systemFont(ofSize: 30, weight: .medium)
-//    }
     
     let tableView = UITableView().then {
         $0.register(
