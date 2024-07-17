@@ -26,7 +26,6 @@ class WriteViewController: BaseViewController {
         }
         
         if let imageUrl = info[.imageURL] as? URL {
-            print("Selected image URL: \(imageUrl)")
             imageURL = "\(imageUrl)"
         }
         
@@ -41,7 +40,7 @@ class WriteViewController: BaseViewController {
     }
     let backButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.setTitleColor(TelTreeAsset.gray400.color, for: .normal)
         $0.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     @objc func backButtonTapped() {
