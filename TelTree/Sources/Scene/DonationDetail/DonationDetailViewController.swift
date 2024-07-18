@@ -28,6 +28,7 @@ class DonationDetailViewController: BaseViewController {
     
     let titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .medium)
+        $0.numberOfLines = 3
     }
     
     let quotation = UIView().then {

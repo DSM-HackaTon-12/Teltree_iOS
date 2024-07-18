@@ -16,7 +16,7 @@ class MyViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
         let request = URLRequest(
-            url: URL(string: "https://web-taltree-frontend-1fk9002blr0bmoh3.sel5.cloudtype.app/my")!,
+            url: URL(string: "http://192.168.64.203:3000/my")!,
             cachePolicy: .returnCacheDataElseLoad
         )
         self.webview.scrollView.isScrollEnabled = true
