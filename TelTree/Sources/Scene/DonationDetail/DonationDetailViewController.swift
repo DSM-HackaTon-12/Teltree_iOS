@@ -14,11 +14,11 @@ class DonationDetailViewController: BaseViewController {
     
     let profileImage = UIImageView().then {
         $0.layer.cornerRadius = 30
+        $0.layer.masksToBounds = true
         $0.backgroundColor = .gray
     }
     
     let profileLabel = UILabel().then {
-        $0.text = "달나라 토끼"
         $0.font = .boldSystemFont(ofSize: 14)
     }
     
@@ -27,8 +27,8 @@ class DonationDetailViewController: BaseViewController {
     }
     
     let titleLabel = UILabel().then {
-        $0.text = "해커톤 하는데 mc봐주실분"
         $0.font = .systemFont(ofSize: 18, weight: .medium)
+        $0.numberOfLines = 3
     }
     
     let quotation = UIView().then {
@@ -36,23 +36,19 @@ class DonationDetailViewController: BaseViewController {
     }
     
     let addressLabel = UILabel().then {
-        $0.text = "달나라"
         $0.font = .systemFont(ofSize: 14, weight: .light)
         $0.textColor = TelTreeAsset.gray400.color
     }
     
     let dateLabel = UILabel().then {
-        $0.text = "3099.07.16 ~ 3199.07.19"
         $0.font = .systemFont(ofSize: 14, weight: .light)
     }
     
     let phoneLabel = UILabel().then {
-        $0.text = "010-1234-5678"
         $0.font = .systemFont(ofSize: 14, weight: .light)
     }
     
     let detailLabel = UILabel().then {
-        $0.text = "오랜만에 달나라에서 짧게 100년 정도 해커톤 진행하려고 하는데 와서 mc봐주실분 계신가요?? 사례로 저희가 직접 만든 달나라 떡 드릴게여.."
         $0.font = .systemFont(ofSize: 16, weight: .light)
         $0.numberOfLines = 0
     }
